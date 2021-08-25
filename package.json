@@ -2,8 +2,11 @@
   "name": "url-short",
   "version": "0.1.0",
   "description": "URL Shortener",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "author": "Natasha Djayaputera",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }

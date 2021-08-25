@@ -1,3 +1,11 @@
 yarn is an NPM alternative, that is faster and easier to use than npm
 the preferred choice in the front end community.
 
+git add
+git commit -m ""
+git log //to look for history
+
+mkdir <filename> //create new directory
+
+
+! + tab to create a html boiler
