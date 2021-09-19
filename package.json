@@ -8,6 +8,7 @@
   "private": true,
   "dependencies": {
     "express": "^4.17.1",
+    "qs": "^6.10.1",
     "sequelize": "^6.6.5",
     "sqlite3": "^5.0.2",
     "ts-node": "^10.2.1",
