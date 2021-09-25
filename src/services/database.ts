@@ -4,9 +4,12 @@ import Urls, { CreateUrlsModelAttributes } from "../models/Urls";
 // INSERT INTO urls(id, original_url, is_custom) VALUES...
 
 export class DatabaseService {
-    private connection!: Sequelize;
+    private connection!: Sequelize
+    
+    // * NOTE: Singleton Pattern
+    private static service: DatabaseService
 
-    constructor() {
+    private constructor() {
         try {
             this.connection = new Sequelize({
                 dialect: 'sqlite',
@@ -19,6 +22,14 @@ export class DatabaseService {
         } catch {
             console.error("DB connection failure")
         }
+    }
+
+    public static get instance(): DatabaseService {
+        if(this.service === undefined) {
+            this.service = new DatabaseService()
+        }
+
+        return this.service
     }
 
     private initializeModels(): void {
