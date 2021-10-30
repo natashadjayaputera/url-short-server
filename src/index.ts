@@ -1,27 +1,37 @@
-import express from 'express'
-import accessShortUrlHandler from './handlers/access-short-url'
-import createShortUrlHandler from './handlers/create-short-url'
-import getShortUrlStatsHandler from './handlers/get-short-url-stats'
-import { DatabaseService } from './services/database'
-// const express = require('express') 
+import dotenv from "dotenv";
+import express, { NextFunction, Request, Response } from "express";
+
+import accessShortUrlHandler from "./handlers/access-short-url";
+import createShortUrlHandler from "./handlers/create-short-url";
+import getShortUrlStatsHandler from "./handlers/get-short-url-stats";
+// const express = require('express')
 // const fs = require('fs')
 
-const app = express()
+dotenv.config();
 
-DatabaseService.instance
+const app = express();
 
-app.use(express.json())
+app.use(express.json());
 
-app.post('/short-urls', createShortUrlHandler)
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "content-type");
+  next();
+});
 
-app.get('/:id', accessShortUrlHandler)
+app.post("/short-urls", createShortUrlHandler);
 
-app.get('/:id/stats', getShortUrlStatsHandler)
+app.get("/:id", accessShortUrlHandler);
 
-app.listen(8000) 
+app.get("/:id/stats", getShortUrlStatsHandler);
 
+app.listen(Number(process.env.PORT));
 
-// * EXAMPLES
+// NOTES: EXAMPLES
 // app.get('/', (req, res) => {
 //   try {
 //     const responseBody = { greetings: 'Hello, World!'}
@@ -30,8 +40,8 @@ app.listen(8000)
 //     res.send(responseBody)
 //   } catch {
 //     res.set('Content-Type', 'application/json')
-//     res.status(500) 
-//     res.send({error: 'Server Error'}) 
+//     res.status(500)
+//     res.send({error: 'Server Error'})
 //   }
 //   })
 
@@ -39,8 +49,8 @@ app.listen(8000)
 //     fs.readFile('src/pages/about.html', null, (err, fileContent) => {
 //       if (err) {
 //         res.set('Content-Type', 'application/json')
-//         res.status(500) 
-//         res.send({error: 'Server Error'}) 
+//         res.status(500)
+//         res.send({error: 'Server Error'})
 //       } else {
 //         res.set('Content-Type', 'text/html') // set the responds HTTP header, with (key <>, to the value of <>)
 //         res.status(200)
